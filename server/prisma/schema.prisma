@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  BUYER
+  SUPPLIER
+}
+
+enum RFQStatus {
+  OPEN
+  CLOSED
+}
+
+model User {
+  id           Int         @id @default(autoincrement())
+  name         String
+  email        String      @unique
+  passwordHash String
+  role         Role
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  rfqs         RFQ[]
+  quotations   Quotation[]
+
+  @@map("users")
+}
+
+model RFQ {
+  id               Int         @id @default(autoincrement())
+  buyerId          Int
+  buyer            User        @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  productName      String
+  description      String
+  quantity         Int
+  deliveryLocation String
+  deadline         DateTime
+  status           RFQStatus   @default(OPEN)
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  quotations       Quotation[]
+
+  @@index([buyerId])
+  @@index([status])
+  @@index([deadline])
+  @@map("rfqs")
+}
+
+model Quotation {
+  id                Int      @id @default(autoincrement())
+  rfqId             Int
+  rfq               RFQ      @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+  supplierId        Int
+  supplier          User     @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  quotedPrice       Float
+  estimatedDelivery String
+  message           String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@unique([rfqId, supplierId])
+  @@index([supplierId])
+  @@index([rfqId])
+  @@map("quotations")
+}
