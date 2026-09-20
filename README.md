@@ -293,8 +293,8 @@ The seed script (`server/prisma/seed.js`) populates the database with pre-config
 ---
 
 ## Live URLs & Links
-* **Live Application**: `https://your-live-frontend-url.com` *(Deployment placeholder)*
-* **GitHub Repository**: `https://github.com/yourusername/rfq-marketplace` *(Repository placeholder)*
+* **Live Application**:  `https://rfq-marketplace-tawny.vercel.app`
+* **GitHub Repository**: `https://github.com/Ajay0548/rfq-marketplace`
 
 ---
 
