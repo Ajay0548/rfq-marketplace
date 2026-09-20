@@ -211,7 +211,7 @@ VITE_API_URL=http://localhost:5000/api
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/yourusername/rfq-marketplace.git
+git clone https://github.com/Ajay0548/rfq-marketplace.git
 cd rfq-marketplace
 ```
 
@@ -273,14 +273,14 @@ The seed script (`server/prisma/seed.js`) populates the database with pre-config
 2. Retrieve the pooled or direct connection string (`DATABASE_URL`).
 
 ### 2. Backend (Render / Railway)
-1. Deploy from the repository pointing to the root directory or `server/`.
-2. Build Command: `cd server && npm install && npx prisma generate && npx prisma db push`
-3. Start Command: `node server/src/server.js`
+1. Deploy from the repository with the root directory set to `server/`.
+2. Build Command: `npm install && npx prisma generate && npx prisma db push`
+3. Start Command: `node src/server.js`
 4. Configure Environment Variables:
    * `PORT`: `5000` (or dynamic port provided by host)
    * `DATABASE_URL`: Your managed PostgreSQL URL
    * `JWT_SECRET`: A cryptographically secure random string
-   * `CLIENT_URL`: `https://your-frontend-domain.vercel.app`
+   * `CLIENT_URL`: `https://rfq-marketplace-tawny.vercel.app`
 
 ### 3. Frontend (Vercel)
 1. Import the repository into Vercel.
@@ -288,7 +288,7 @@ The seed script (`server/prisma/seed.js`) populates the database with pre-config
 3. Build Command: `npm run build`
 4. Output Directory: `dist`
 5. Configure Environment Variable:
-   * `VITE_API_URL`: `https://your-backend-domain.onrender.com/api`
+   * `VITE_API_URL`: `https://rfq-marketplace-rho3.onrender.com/api`
 
 ---
 
@@ -301,7 +301,7 @@ The seed script (`server/prisma/seed.js`) populates the database with pre-config
 ## Assumptions & Design Trade-offs
 1. **RFQ Expiration Logic**: An RFQ is considered `CLOSED` either if its database status is explicitly set to `CLOSED` or if `new Date(deadline) < new Date()`. The backend computes and validates this on every query and mutation.
 2. **Quotation Pricing**: Quoted price is stored as a numerical float (representing Indian Rupees ₹ or user currency) and represents the total value for the requested quantity.
-3. **Single Quote Policy**: In line with standard B2B reverse auctions, each supplier is permitted a single active quotation per RFQ to avoid bidding spam.
+3. **Single Quote Policy**: Each supplier is permitted one quotation per RFQ to prevent duplicate submissions.
 
 ---
 
